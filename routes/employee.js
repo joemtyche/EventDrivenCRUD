@@ -32,10 +32,23 @@ router.get("/roles", function (request, response, next) {
     }
   });
 });
+router.get("/employees", function (request, response, next) {
+  const query = 'SELECT * FROM Employee';
+
+  database.query(query, function (error, data) {
+    if (error) {
+      console.error('Database Error:', error);
+      return response.status(500).json({ error: 'Internal Server Error' });
+    }else {
+      response.json({ data });
+    }
+  });
+});
 
 router.post("/action", function (request, response, next) {
   var action = request.body.action;
 
+  // employee
   if (action == 'fetch') {
     const query = `
 			SELECT 
@@ -82,7 +95,6 @@ router.post("/action", function (request, response, next) {
       }
     });
   }
-
   if (action == 'Add') {
     var first_name = request.body.first_name;
     var middle_name = request.body.middle_name;
@@ -92,7 +104,7 @@ router.post("/action", function (request, response, next) {
     var province = request.body.province;
     var country = request.body.country;
     var zipcode = parseInt(request.body.zipcode);
-    var role = request.body.role; // get index or id instead
+    var role = request.body.role; 
     var status = request.body.status;
 
     var employeeQuery = "INSERT INTO Employee (fname, mname, lname, address, barangay, province, country, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -122,45 +134,6 @@ router.post("/action", function (request, response, next) {
       });
     });
   }
-
-  if (action == 'deptadd') {
-    var dept_name = request.body.dept_name;
-    var status = request.body.status;
-
-    query = `INSERT INTO Department (dept_name, status) VALUES ("${dept_name}", "${status}")`;
-
-    database.query(query, function (error, data) {
-      if (error) {
-        console.error('Database Error:', error);
-        response.status(500).json({
-          error: 'Internal Server Error'
-        });
-      }
-      console.log("Department inserted successfully");
-
-      response.status(200).json({ message: 'Department added successfully' });
-  });
-  }
-
-  if (action == 'roleadd') {
-    var dept_id = request.body.department;
-    var role = request.body.role_name;
-
-    query = `INSERT INTO Role (dept_id, role) VALUES ("${dept_id}", "${role}")`;
-
-    database.query(query, function (error, data) {
-      if (error) {
-        console.error('Database Error:', error);
-        response.status(500).json({
-          error: 'Internal Server Error'
-        });
-      }
-      console.log("Role inserted successfully");
-
-      response.status(200).json({ message: 'Role added successfully' });
-  });
-  }
-
   if(action == 'fetch_single')
   {
   	var id = request.body.id;
@@ -202,7 +175,6 @@ router.post("/action", function (request, response, next) {
 
   	});
   }
-
   if(action == 'Edit')
   {
   	var id = request.body.id;
@@ -280,18 +252,22 @@ router.post("/action", function (request, response, next) {
       });
   });
   }
-
   if (action == 'delete') {
     var id = request.body.id;
   
     // Begin a database transaction
     database.beginTransaction(function (err) {
-      if (err) {
-        console.error('Database Error:', err);
-        response.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-  
+      var signatoriesQuery = `DELETE FROM Signatories WHERE emp_id = ?`;
+      database.query(signatoriesQuery, [id], function (error, result) {
+        if (error) {
+          console.error('Error deleting signatories:', error);
+          // Rollback the transaction
+          database.rollback(function () {
+            response.status(500).json({ error: 'Internal Server Error' });
+          });
+          return;
+        }
+      });
       // Delete the corresponding designation records from the Designation table
       var designationQuery = `DELETE FROM Designation WHERE emp_id = ?`;
       database.query(designationQuery, [id], function (error, result) {
@@ -330,6 +306,212 @@ router.post("/action", function (request, response, next) {
         });
       });
     });
+  }
+
+  // dept
+  if (action == 'deptadd') {
+    var dept_name = request.body.dept_name;
+    var status = request.body.status;
+
+    query = `INSERT INTO Department (dept_name, status) VALUES ("${dept_name}", "${status}")`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      }
+      console.log("Department inserted successfully");
+
+      response.status(200).json({ message: 'Department added successfully' });
+  });
+  }
+  // role
+  if (action == 'roleadd') {
+    var dept_id = request.body.department;
+    var role = request.body.role_name;
+
+    query = `INSERT INTO Role (dept_id, role) VALUES ("${dept_id}", "${role}")`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      }
+      console.log("Role inserted successfully");
+
+      response.status(200).json({ message: 'Role added successfully' });
+  });
+  }
+
+  // signatories
+  if (action == 'fetchsignatories') {
+    const query = `
+			SELECT 
+				e.id as id,
+				e.fname AS fname,
+				e.lname AS lname,
+				e.mname AS mname,
+        s.id AS signatory_id,
+        s.title AS title,
+        s.status as status
+			FROM 
+				Employee e
+			JOIN 
+				Signatories s ON s.emp_id = e.id
+		`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      } else {
+        // Process the sorted data as needed
+        response.json({
+          data: data
+        });
+      }
+    });
+  }
+  if (action == 'signatoriesadd') {
+    var emp_id = request.body.semployee;
+    var title = request.body.stitle;
+    var status = request.body.sstatus;
+
+    query = `INSERT INTO Signatories (emp_id, title, status) VALUES ("${emp_id}", "${title}", "${status}")`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      }
+      console.log("Signatory inserted successfully");
+
+      response.status(200).json({ message: 'Signatory added successfully' });
+  });
+  }
+
+  // leave
+  if (action == 'leave') {
+    var emp_id = request.body.emp_id;
+    var start_leave = request.body.start_date;
+    var end_leave = request.body.end_date;
+    var type = request.body.type;
+    var status = request.body.status;
+
+    const query = `INSERT INTO Leaves (emp_id, start_leave, end_leave, leave_type, status) VALUES (${emp_id}, '${start_leave}', '${end_leave}', '${type}', '${status}')`;
+
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      }
+      console.log("Leave inserted successfully");
+
+      response.status(200).json({ message: 'Leave added successfully' });
+  });
+  }
+  if(action == 'fetchleave_single')
+  {
+  	var id = request.body.id;
+
+  	var query = `
+    SELECT 
+      e.id as id,
+      l.id AS leave_id,
+      l.start_leave AS start_leave,
+      l.end_leave AS end_leave,
+      l.leave_type AS leave_type,
+      l.status AS status
+    FROM 
+      Employee e
+    JOIN 
+      Leaves l ON l.emp_id = e.id
+    WHERE 
+      l.id = "${id}";
+    `;
+  	database.query(query, function(error, data){
+  		response.json(data[0]);
+  	});
+  }
+  if (action == 'leavedelete') {
+    var id = request.body.id;
+
+    query = `DELETE FROM Leaves WHERE id = ${id};`;
+
+    database.query(query, [id], function(error, data) {
+      if (error) {
+          console.error('Database Error:', error);
+          return response.status(500).json({ error: 'Internal Server Error' });
+      }
+      // Send a success response
+      response.status(200).json({ message: 'Leave deleted successfully' });
+    });
+  }
+  if (action == 'fetchleave') {
+    const query = `
+			SELECT 
+				e.id as id,
+				e.fname AS fname,
+				e.lname AS lname,
+				e.mname AS mname,
+        l.id AS leave_id,
+        l.start_leave AS start_leave,
+        l.end_leave AS end_leave,
+        l.leave_type AS leave_type,
+        l.status AS status
+			FROM 
+				Employee e
+			JOIN 
+				Leaves l ON l.emp_id = e.id
+		`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      } else {
+        // Sort the data by employee ID in ascending order
+        data.sort((a, b) => a.Designation_EmployeeID - b.Designation_EmployeeID);
+
+        // Process the sorted data as needed
+        response.json({
+          data: data
+        });
+      }
+    });
+  }
+  if(action == 'leaveedit') {
+    var id = request.body.id;
+  	var start_date = request.body.start_date;
+    var end_date = request.body.end_date;
+  	var type = request.body.type;
+  	var status = request.body.status;
+
+    query = `UPDATE Leaves SET start_leave = '${start_date}', end_leave = '${end_date}', leave_type = '${type}', status = '${status}' WHERE id = ${id}`;
+    database.query(query, function(error, data){
+  		if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      }
+      console.log("Leave updated successfully");
+
+      response.status(200).json({ message: 'Leave updated successfully' });
+  	});
   }
   
 });

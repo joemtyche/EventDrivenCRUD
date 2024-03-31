@@ -7,9 +7,17 @@ html {
   font-family: "inter";
 }
 
-/* will remove later sakit sa mata lol */
-body { 
-  background-color: #f5f5f5; /* Gray color code from Bootstrap */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 2.4rem;
+  padding: 2.4rem;
+  background-color: azure;
+}
+
+.header-title {
+  font-size: 3.4rem;
 }
 
 .container {
@@ -20,6 +28,34 @@ body {
   margin-top: 12.8rem;
 }
 
+.div-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2.4rem;
+}
+
+.div-title h1 {
+  font-size: 3.4rem;
+}
+
+.group-names {
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
+  padding: 2.4rem;
+  background-color: azure;
+}
+
+.group-names p {
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+body {
+  background-color: #d0ebff;
+}
+
 table {
   max-width: 100% !important;
 }
@@ -28,8 +64,8 @@ thead {
   font-size: 1.6rem;
 }
 
-.form {
-  max-width: 65rem;
+.form-add {
+  max-width: 75rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 2.4rem;
   margin: 6.4rem auto;
@@ -40,10 +76,11 @@ thead {
 
 label {
   margin-bottom: 1rem;
+  font-weight: 500;
 }
 
-.form input,
-.form select {
+.form-add input,
+.form-add select {
   font-size: 1.6rem;
 }
 
@@ -57,8 +94,9 @@ input:active {
 
 .form-div {
   display: flex;
-  margin-top: 1.6rem;
-  gap: 2.4rem;
+  margin: 1.6rem 0rem;
+  gap: 5.2rem;
+  justify-content: center;
 }
 
 .btn {
@@ -81,4 +119,92 @@ td {
 .form-control,
 .form-select {
   overflow: auto !important;
+}
+
+/* Leave list */
+
+.leave-list-container {
+  margin: 2.4rem 3.2rem;
+  margin-top: 0rem;
+  padding: 1rem;
+  display: none;
+}
+
+.leave-modal-container,
+.signatories-modal-container {
+  min-width: 50rem;
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 2.4rem;
+  font-weight: 500;
+  z-index: 10;
+
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  border: 1px black solid;
+  border-radius: 1rem;
+  background-color: azure;
+
+  display: none;
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  z-index: 9;
+  background-color: rgba(0, 0, 0, 0.25);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(2px);
+  display: none;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4rem;
+}
+
+.leave-modal-container h1,
+.signatories-modal-container h1 {
+  font-size: 4.2rem;
+  font-weight: 500;
+}
+
+.leave-modal-container input,
+.signatories-modal-container input {
+  font-size: 2.4rem;
+}
+
+.leave-modal-container select,
+.signatories-modal-container select {
+  font-size: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+}
+
+.exit-modal {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+
+.leave-modal button {
+  font-size: 2.4rem;
+}
+
+/* Signatories */
+.signatories-list-container {
+  display: none;
+  margin: 2.4rem 3.2rem;
 }

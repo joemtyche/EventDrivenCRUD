@@ -21,109 +21,171 @@
 
 </head>
 
+<header>
+  <div class="header">
+    <button class="btn btn-outline-primary active employee-list-btn">
+      Employee list
+    </button>
+    <button class="btn btn-outline-primary leave-list-btn">Leave list</button>
+    <button class="btn btn-outline-primary signatories-list-btn">
+      Signatories
+    </button>
+  </div>
+</header>
+
 <body>
-  <div class="form-container">
-    <h1>Employee Manager</h1><button class = "deptbutt">Create Department</button><button class = "rolebutt">Create Role</button>
-    <button class = "leavebutt">Leave</button>
-    <form class="form" method="post" id="form">
-      <div class="form-group">
-        <div class="form-div">
-          <div>
-            <label>First Name</label>
-            <input type="text" name="first_name" id="first_name" class="form-control" />
-          </div>
-
-          <div>
-            <label>Middle Name</label>
-            <input type="text" name="middle_name" id="middle_name" class="form-control" />
-          </div>
-
-          <div>
-            <label>Last Name</label>
-            <input type="text" name="last_name" id="last_name" class="form-control" />
-          </div>
-        </div>
-
-        <label>Address Line</label>
-        <input type="text" name="address" id="address" class="form-control" />
-
-        <div class="form-div">
-          <div>
-            <label>Barangay</label>
-            <input type="text" name="barangay" id="barangay" class="form-control" />
-          </div>
-          <div>
-            <label>Province</label>
-            <input type="text" name="province" id="province" class="form-control" />
-          </div>
-
-          <div>
-            <label>Country</label>
-            <input type="text" name="country" id="country" class="form-control" />
-          </div>
-        </div>
-
-        <div class="form-div">
-          <div>
-            <label>Zipcode</label>
-            <input type="text" name="zipcode" id="zipcode" class="form-control" />
-          </div>
-
-          <div>
-            <label>Department</label>
-            <select class="form-select" id="dept_select" name="department">
-            </select>
-          </div>
-          <div>
-            <label>Role</label>
-            <select class="form-select" id="type_select" name="type">
-              <option value="NULL">--------</option>
-            </select>
-          </div>
-          <div>
-            <label>Status</label>
-            <select class="form-select" id="status_select" name="status">
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-              <option value="Resigned">Resigned</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-div"></div>
-
-        <div class="btn-div">
-          <button type="submit" class="btn btn-outline-primary add-btn" id="add_employee">
-            Add Employee
-          </button>
+  <div class = "all-container">
+    <div class ="employee-list-container">
+      <div class="div-title"><h1>Employee Manager</h1></div>
+      <div class="form-container">
+        <button class = "deptbutt">Create Department</button><button class = "rolebutt">Create Role</button>
+        <div class = "form-container">
+          <form class="form-add" method="post" id="form">
+            <div class="form-group">
+              <div class="form-div">
+                <div>
+                  <label>First Name</label>
+                  <input type="text" name="first_name" id="first_name" class="form-control" />
+                </div>
+  
+                <div>
+                  <label>Middle Name</label>
+                  <input type="text" name="middle_name" id="middle_name" class="form-control" />
+                </div>
+  
+                <div>
+                  <label>Last Name</label>
+                  <input type="text" name="last_name" id="last_name" class="form-control" />
+                </div>
+              </div>
+  
+              <label>Address Line</label>
+              <input type="text" name="address" id="address" class="form-control" />
+  
+              <div class="form-div">
+                <div>
+                  <label>Barangay</label>
+                  <input type="text" name="barangay" id="barangay" class="form-control" />
+                </div>
+                <div>
+                  <label>Province</label>
+                  <input type="text" name="province" id="province" class="form-control" />
+                </div>
+  
+                <div>
+                  <label>Country</label>
+                  <input type="text" name="country" id="country" class="form-control" />
+                </div>
+              </div>
+  
+              <div class="form-div">
+                <div>
+                  <label>Zipcode</label>
+                  <input type="text" name="zipcode" id="zipcode" class="form-control" />
+                </div>
+  
+                <div>
+                  <label>Department</label>
+                  <select class="form-select" id="dept_select" name="department">
+                  </select>
+                </div>
+                <div>
+                  <label>Role</label>
+                  <select class="form-select" id="type_select" name="type">
+                    <option value="NULL">--------</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Status</label>
+                  <select class="form-select" id="status_select" name="status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Resigned">Resigned</option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="form-div"></div>
+  
+              <div class="btn-div">
+                <button type="submit" class="btn btn-outline-primary add-btn" id="add_employee">
+                  Add Employee
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
-  </div>
+      <div class="container">
+        <table class="table table-hover actual-table" id="employee_table">
+          <thead>
+            <tr> 
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Address Line</th>
+              <th>Barangay</th>
+              <th>Province</th>
+              <th>Country</th>
+              <th>Zipcode</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th colspan="3" style="text-align: center">Actions</th>
+            </tr>
+          </thead>
 
-  <div class="container">
-    <table class="table table-hover actual-table" id="employee_table">
-      <thead>
-        <tr> 
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Middle Name</th>
-          <th>Last Name</th>
-          <th>Address Line</th>
-          <th>Barangay</th>
-          <th>Province</th>
-          <th>Country</th>
-          <th>Zipcode</th>
-          <th>Department</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th colspan="2" style="text-align: center">Actions</th>
-        </tr>
-      </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
 
-      <tbody></tbody>
-    </table>
+    <div class="leave-list-container">
+      <div class="div-title"><h1>Leave List</h1></div>
+      <table class="table table-hover leave-table" id = "leave_table">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Start Leave</th>
+            <th>End Leave</th>
+            <th>Leave Type</th>
+            <th>Status</th>
+            <th colspan="2" style="text-align: center">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="signatories-list-container">
+      <div class="div-title"><h1>Signatories List</h1></div>
+      <div class="btn-div">
+        <button class = "signatoriesbutt">Add Signatories</button>
+        <button type="submit"class="btn btn-outline-primary add-signatories-btn" id="signatoriesbutt">
+          Add Signatories
+        </button>
+      </div>
+      <table class="table table-hover signatories-table" id = "signatories_table">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Title</th>
+            <!-- <th>Signature</th> -->
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="overlay"></div>
   </div>
+  <script src="/script.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
@@ -258,21 +320,31 @@
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Employee ID</label>
-            <select name="department" id="rdepartment" class="form-control">
-              <option value="EMPTY">EMPTY</option>
-              <option value="EMPTY">EMPTY</option>
+            <input type="text" id="lID" name="lID" class="form-control" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" id="lstartdate" name="start_date" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" id="lenddate" name="end_date" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Leave Type</label>
+            <select name="type" id="ltype" class="form-control">
+              <option value="Vacation">Vacation</option>
+              <option value="Sick">Sick</option>
+              <option value="Maternity">Maternity</option>
+              <option value="Paternity">Paternity</option>
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label">Higher Employee ID</label>
-            <select name="department" id="rdepartment" class="form-control">
-              <option value="EMPTY">EMPTY</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Reason</label>
-            <select name="department" id="rdepartment" class="form-control">
-              <option value="EMPTY">Maternity Leave</option>
+            <label class="form-label">Status</label>
+            <select name="status" id="lstatus" class="form-control">
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
         </div>
@@ -283,6 +355,81 @@
           <button type="submit" class="btn btn-primary" id="leave_butt">Add</button>
         </div>
       </form>
+      <form method="post" id="leave_edit_form">
+        <div class="modal-header" id="leave_form_edit_title">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Employee ID</label>
+            <input type="text" id="empleaveID" name="empleaveID" class="form-control" disabled>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" id="lestartdate" name="start_date" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" id="leenddate" name="end_date" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Leave Type</label>
+            <select name="type" id="letype" class="form-control">
+              <option value="Vacation">Vacation</option>
+              <option value="Sick">Sick</option>
+              <option value="Maternity">Maternity</option>
+              <option value="Paternity">Paternity</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" id="lestatus" class="form-control">
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="leID" id="leID" />
+          <input type="hidden" name="action" id="leaveeditaction" value="leaveedit" />
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="leave_edit_butt">Add</button>
+        </div>
+      </form>
+
+      <form method="post" id="signatories_form">
+        <div class="modal-header" id="signatories_form_title">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Employee Name</label>
+            <select name="semployee" id="semployee" class="form-control">
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="stitle" id="stitle" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="sstatus" id="sstatus" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Resigned">Resigned</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="signatoriesid" id="signatoriesid" />
+          <input type="hidden" name="action" id="signatoriesaction" value="signatoriesadd" />
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="add_signatories_butt">Add</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -290,329 +437,73 @@
 <script>
 
 $(document).ready(function () {
+  var employeeDivBtn = $(".employee-list-btn");
+  var leaveDivBtn = $(".leave-list-btn");
+  var signatoriesBtn = $(".signatories-list-btn");
+  var employeeDiv = $(".employee-list-container");
+  var leaveDiv = $(".leave-list-container");
+  var signatoriesDiv = $(".signatories-list-container");
 
-  load_data();
-  load_departments();
-
-  function load_data() {
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: { action: 'fetch' },
-      dataType: "JSON",
-      success: function (data) {
-        var html = '';
-        if (data.data.length > 0) {
-          for (var count = 0; count < data.data.length; count++) {
-            html += `
-                      <tr>
-                          <td>`+ data.data[count].id + `</td>
-                          <td>`+ data.data[count].fname + `</td>
-                          <td>`+ data.data[count].mname + `</td>
-                          <td>`+ data.data[count].lname + `</td>
-                          <td>`+ data.data[count].address + `</td>
-                          <td>`+ data.data[count].barangay + `</td>
-                          <td>`+ data.data[count].province + `</td>
-                          <td>`+ data.data[count].country + `</td>
-                          <td>`+ data.data[count].zipcode + `</td>
-                          <td>`+ data.data[count].dept_name + `</td>
-                          <td>`+ data.data[count].role + `</td>
-                          <td>`+ data.data[count].status + `</td>
-                          <td><button type="button" class="btn btn-outline-info edit" data-id="`+ data.data[count].id + `">Edit</button>&nbsp;<button type="button" class="btn btn-outline-danger delete" data-id="` + data.data[count].id + `">Delete</button></td>
-                      </tr>
-                      `;
-          }
-          $("input").val("");
-        } else {
-          html = '<tr><td colspan="13" class="text-center">No data found</td></tr>';
-        }
-
-        $('#employee_table tbody').html(html);
-      }
-    });
-  }
-  function load_departments() {
-    $.ajax({
-      url: "http://localhost:3000/employee/departments", 
-      method: "GET",
-      data: { action: 'fetchdept' },
-      dataType: "JSON",
-      success: function(response) {
-          // Clear existing options
-          $('#tdepartment').empty();
-          $('#rdepartment').empty();
-          $('#dept_select').empty();
-
-          // Populate options with received data
-          response.data.forEach(function(department) {
-              $('#tdepartment').append('<option value="' + department.id + '">' + department.dept_name + '</option>');
-              $('#rdepartment').append('<option value="' + department.id + '">' + department.dept_name + '</option>');
-              $('#dept_select').append('<option value="' + department.id + '">' + department.dept_name + '</option>');
-          });
-      },
-      error: function(xhr, status, error) {
-          console.error("Failed to load departments:", error);
-      }
-  });
-  }
-  function load_roles(departmentId, selectRoleId) {
-    $.ajax({
-      url: "http://localhost:3000/employee/roles", 
-      method: "GET",
-      data: { department_id: departmentId },
-      dataType: "JSON",
-      success: function(response) {
-          $('#type_select').empty();
-          $('#trole').empty();
-          
-          response.data.forEach(function(role) {
-              $('#type_select').append('<option value="' + role.id + '">' + role.role + '</option>');
-              $('#trole').append('<option value="' + role.id + '">' + role.role + '</option>');
-          });
-
-          $('#trole').val(selectRoleId);
-      }
-  });
-  }
-
-  $('#add_employee').click(function () {
-
-    event.preventDefault();
-
-    var formData = {
-      first_name: $('#first_name').val(),
-      middle_name: $('#middle_name').val(),
-      last_name: $('#last_name').val(),
-      address: $('#address').val(),
-      barangay: $('#barangay').val(),
-      province: $('#province').val(),
-      country: $('#country').val(),
-      zipcode: $('#zipcode').val(),
-      department: $('#dept_select').val(),
-      role: $('#type_select').val(),
-      status: $('#status_select').val()
-    };
-
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: { action: 'Add', ...formData },
-      dataType: "JSON",
-      beforeSend: function () {
-        $('#add_employee').attr('disabled', 'disabled');
-      },
-      success: function (response) {
-          $('#add_employee').attr('disabled', false);
-
-          $('#message').html('<div class="alert alert-success">' + response.message + '</div>');
-
-          load_data();
-
-          setTimeout(function () {
-              $('#message').html('');
-          }, 5000);
-      }
-    });
+  employeeDivBtn.on("click", function () {
+      employeeDiv.css("display", "block");
+      leaveDiv.css("display", "none");
+      signatoriesDiv.css("display", "none");
+      employeeDivBtn.addClass("active");
+      leaveDivBtn.removeClass("active");
+      signatoriesBtn.removeClass("active");
   });
 
-  $(document).on('click', '.edit', function () { // edit modal show
-    $('#department_form').hide();
-    $('#sample_form').show();
-    $('#leave_form').hide();
-    $('#role_form').hide();
-
-    var id = $(this).data('id');
-
-    $('#dynamic_modal_title').text('Edit Data');
-
-    $('#action').val('Edit');
-
-    $('#action_button').text('Edit');
-
-    $('#action_modal').modal('show');
-
-    
-
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: { id: id, action: 'fetch_single' },
-      dataType: "JSON",
-      success: function (data) {
-        $('#tfirst_name').val(data.fname);
-        $('#tmiddle_name').val(data.mname);
-        $('#tlast_name').val(data.lname);
-        $('#taddress').val(data.address);
-        $('#tbarangay').val(data.barangay);
-        $('#tprovince').val(data.province);
-        $('#tcountry').val(data.country);
-        $('#tzipcode').val(data.zipcode);
-        $('#tdepartment').val(data.Role_DepartmentID);
-        load_roles(data.Role_DepartmentID, data.Designation_RoleID);
-        $('#tstatus').val(data.designation_status);
-        $('#id').val(data.id);
-      }
-    });
-  });
-  $('#sample_form').on('submit', function (event) { //edit modal edit
-
-    event.preventDefault();
-
-    console.log($('#sample_form').serialize());
-
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: $('#sample_form').serialize(),
-      dataType: "JSON",
-      beforeSend: function () {
-        $('#action_button').attr('disabled', 'disabled');
-      },
-      success: function (data) {
-        $('#action_button').attr('disabled', false);
-
-        $('#message').html('<div class="alert alert-success">' + data.message + '</div>'); // no alert in this html
-
-        $('#action_modal').modal('hide');
-
-        load_data();
-
-        setTimeout(function () {
-          $('#message').html('');
-        }, 5000);
-      }
-    });
+  leaveDivBtn.on("click", function () {
+      leaveDiv.css("display", "block");
+      employeeDiv.css("display", "none");
+      signatoriesDiv.css("display", "none");
+      employeeDivBtn.removeClass("active");
+      leaveDivBtn.addClass("active");
+      signatoriesBtn.removeClass("active");
   });
 
-  $(document).on('click', '.deptbutt', function () { // department modal show
-    $('#sample_form').hide();
-    $('#role_form').hide();
-    $('#leave_form').hide();
-    $('#department_form').show();
-
-    $('#department_form_title').text('Add Department');
-    $('#deptaction').val('deptadd');
-    $('#add_dept_butt').text('Add');
-    $('#action_modal').modal('show');
-  });
-  $('#department_form').on('submit', function (event) { // department modal add
-    event.preventDefault();
-    
-    console.log($('#department_form').serialize());
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: $('#department_form').serialize(),
-      dataType: "JSON",
-      beforeSend: function () {
-        $('#add_dept_butt').attr('disabled', 'disabled');
-      },
-      success: function (data) {
-        $('#add_dept_butt').attr('disabled', false);
-
-        $('#message').html('<div class="alert alert-success">' + data.message + '</div>'); // no alert in this html
-
-        $('#action_modal').modal('hide');
-
-        load_data();
-
-        setTimeout(function () {
-          $('#message').html('');
-        }, 5000);
-      }
-    });
+  signatoriesBtn.on("click", function () {
+      signatoriesDiv.css("display", "block");
+      leaveDiv.css("display", "none");
+      employeeDiv.css("display", "none");
+      employeeDivBtn.removeClass("active");
+      leaveDivBtn.removeClass("active");
+      signatoriesBtn.addClass("active");
   });
 
-  $(document).on('click', '.rolebutt', function () { // Role modal show
-    $('#sample_form').hide();
-    $('#department_form').hide();
-    $('#leave_form').hide();
-    $('#role_form').show();
-    load_departments();
-
-    $('#role_form_title').text('Add Role');
-    $('#roleaction').val('roleadd');
-    $('#add_role_butt').text('Add');
-    $('#action_modal').modal('show');
+  // Leave-btn-modal
+  var exitModal = $(".exit-modal");
+  var leaveModalContainer = $(".leave-modal-container");
+  var leaveModal = $(".leave-modal");
+  var overlay = $(".overlay");
+  var signatoriesModalContainer = $(".signatories-modal-container");
+  var signatoriesModal = $(".singatories-modal");
+  // Exit modal
+  exitModal.on("click", function () {
+      leaveModal.css("display", "none");
+      leaveModalContainer.css("display", "none");
+      signatoriesModal.css("display", "none");
+      signatoriesModalContainer.css("display", "none");
+      overlay.css("display", "none");
   });
-  $('#role_form').on('submit', function (event) { // department modal add
-    event.preventDefault();
-    
-    console.log($('#role_form').serialize());
-    $.ajax({
-      url: "http://localhost:3000/employee/action",
-      method: "POST",
-      data: $('#role_form').serialize(),
-      dataType: "JSON",
-      beforeSend: function () {
-        $('#add_role_butt').attr('disabled', 'disabled');
-      },
-      success: function (data) {
-        $('#add_role_butt').attr('disabled', false);
-        $('#message').html('<div class="alert alert-success">' + data.message + '</div>'); // no alert in this html
-        $('#action_modal').modal('hide');
-
-        load_data();
-
-        setTimeout(function () {
-          $('#message').html('');
-        }, 5000);
-      }
-    });
+  overlay.on("click", function () {
+      leaveModal.css("display", "none");
+      leaveModalContainer.css("display", "none");
+      overlay.css("display", "none");
+      signatoriesModal.css("display", "none");
+      signatoriesModalContainer.css("display", "none");
   });
-
-  $(document).on('click', '.leavebutt', function () { // leave modal show
-    $('#sample_form').hide();
-    $('#department_form').hide();
-    $('#role_form').hide();
-    $('#leave_form').show();
-    load_departments();
-
-    $('#leave_form_title').text('Request Leave');
-    $('#leaveaction').val('leave');
-    $('#leave_butt').text('Request');
-    $('#action_modal').modal('show');
+  // Show modal
+  $("body").on("click", ".btn-leave", function () {
+      leaveModal.css("display", "block");
+      leaveModalContainer.css("display", "block");
+      overlay.css("display", "block");
   });
-  
-
-  $('#dept_select').change(function() { // load roles upon choosing department
-    var departmentId = $(this).val();
-    
-    if (departmentId) {
-        load_roles(departmentId, 0);
-    } else {
-        $('#type_select').empty().prop('disabled', true);
-    }
+  $("body").on("click", ".add-signatories-btn", function () {
+      signatoriesModalContainer.css("display", "block");
+      signatoriesModal.css("display", "block");
+      overlay.css("display", "block");
+  });
 });
-  $('#tdepartment').change(function() { // load roles upon choosing department
-      var departmentId = $(this).val();
-      
-      if (departmentId) {
-          load_roles(departmentId, 0);
-      } else {
-          $('#trole').empty().prop('disabled', true);
-      }
-  });
-
-  $(document).on('click', '.delete', function () {
-    var id = $(this).data('id');
-    if (confirm("Are you sure you want to delete this data?")) {
-      $.ajax({
-        url: "http://localhost:3000/employee/action",
-        method: "POST",
-        data: { action: 'delete', id: id },
-        dataType: "JSON",
-        success: function (data) {
-          $('#message').html('<div class="alert alert-success">' + data.message + '</div>');
-          load_data();
-          setTimeout(function () {
-            $('#message').html('');
-          }, 5000);
-        }
-      });
-    }
-
-  });
-  });
 
 </script>
