@@ -18,6 +18,32 @@ router.get("/departments", function (request, response, next) {
     }
   });
 });
+router.get("/superiors", function (request, response, next) {
+  const query = `
+    SELECT 
+        e.id AS id,
+        e.fname AS fname,
+        e.lname AS lname,
+        e.mname AS mname
+    FROM 
+        Employee e
+    JOIN 
+        Designation d ON e.id = d.emp_id
+    JOIN 
+        Role r ON d.role_id = r.id
+    WHERE 
+        r.position = 'Superior';
+  `;
+
+  database.query(query, function (error, data) {
+    if (error) {
+      console.error('Database Error:', error);
+      return response.status(500).json({ error: 'Internal Server Error' });
+    }else {
+      response.json({ data });
+    }
+  });
+});
 router.get("/roles", function (request, response, next) {
   const departmentId = request.query.department_id;
   
@@ -129,8 +155,32 @@ router.post("/action", function (request, response, next) {
           return;
         }
         console.log("Data inserted successfully");
+      });
 
-        response.status(200).json({ message: 'Employee added successfully' });
+
+      var getRoleQuery = `SELECT position FROM Role WHERE id = ?`;
+
+      database.query(getRoleQuery, [role], function (error, results) {
+        if (error) {
+          console.error('Error fetching role position:', error);
+          return;
+        }
+        var position = results[0].position;
+
+        if (position === 'Superior') {
+          var signatoriesQuery = "INSERT INTO Signatories (emp_id) VALUES (?)";
+            database.query(signatoriesQuery, [empId], function (error) {
+              if (error) {
+                console.error('Error inserting into Signatories table:', error);
+                return;
+              }
+              console.log('Signatory added successfully');
+              response.status(200).json({ message: 'Employee added successfully' });
+          });
+        }
+        else {
+          response.status(200).json({ message: 'Employee added successfully' });
+        }
       });
     });
   }
@@ -268,6 +318,17 @@ router.post("/action", function (request, response, next) {
           return;
         }
       });
+      var leavesQuery = `DELETE FROM Leaves WHERE emp_id = ?`;
+      database.query(leavesQuery, [id], function (error, result) {
+        if (error) {
+          console.error('Error deleting leave:', error);
+          // Rollback the transaction
+          database.rollback(function () {
+            response.status(500).json({ error: 'Internal Server Error' });
+          });
+          return;
+        }
+      });
       // Delete the corresponding designation records from the Designation table
       var designationQuery = `DELETE FROM Designation WHERE emp_id = ?`;
       database.query(designationQuery, [id], function (error, result) {
@@ -301,7 +362,7 @@ router.post("/action", function (request, response, next) {
             }
   
             // Send success response
-            response.json({ message: 'Employee and corresponding designation deleted successfully' });
+            response.json({ message: 'Employee, Designation, Leave and Signatory deleted successfully' });
           });
         });
       });
@@ -331,8 +392,9 @@ router.post("/action", function (request, response, next) {
   if (action == 'roleadd') {
     var dept_id = request.body.department;
     var role = request.body.role_name;
+    var position = request.body.position;
 
-    query = `INSERT INTO Role (dept_id, role) VALUES ("${dept_id}", "${role}")`;
+    query = `INSERT INTO Role (dept_id, role, position) VALUES ("${dept_id}", "${role}", "${position}")`;
 
     database.query(query, function (error, data) {
       if (error) {
@@ -350,18 +412,21 @@ router.post("/action", function (request, response, next) {
   // signatories
   if (action == 'fetchsignatories') {
     const query = `
-			SELECT 
-				e.id as id,
-				e.fname AS fname,
-				e.lname AS lname,
-				e.mname AS mname,
+    SELECT 
+        e.id AS id,
+        e.fname AS fname,
+        e.lname AS lname,
+        e.mname AS mname,
         s.id AS signatory_id,
-        s.title AS title,
-        s.status as status
-			FROM 
-				Employee e
-			JOIN 
-				Signatories s ON s.emp_id = e.id
+        r.role AS role
+    FROM 
+        Employee e
+    JOIN 
+        Signatories s ON s.emp_id = e.id
+    JOIN 
+        Designation d ON d.emp_id = e.id
+    JOIN 
+        Role r ON r.id = d.role_id;
 		`;
 
     database.query(query, function (error, data) {
@@ -404,9 +469,10 @@ router.post("/action", function (request, response, next) {
     var start_leave = request.body.start_date;
     var end_leave = request.body.end_date;
     var type = request.body.type;
+    var superior = request.body.superior;
     var status = request.body.status;
 
-    const query = `INSERT INTO Leaves (emp_id, start_leave, end_leave, leave_type, status) VALUES (${emp_id}, '${start_leave}', '${end_leave}', '${type}', '${status}')`;
+    const query = `INSERT INTO Leaves (emp_id, start_leave, end_leave, leave_type, superior_id, status) VALUES (${emp_id}, '${start_leave}', '${end_leave}', '${type}', ${superior}, '${status}')`;
 
 
     database.query(query, function (error, data) {
@@ -426,17 +492,23 @@ router.post("/action", function (request, response, next) {
   	var id = request.body.id;
 
   	var query = `
-    SELECT 
-      e.id as id,
-      l.id AS leave_id,
-      l.start_leave AS start_leave,
-      l.end_leave AS end_leave,
-      l.leave_type AS leave_type,
-      l.status AS status
-    FROM 
-      Employee e
-    JOIN 
-      Leaves l ON l.emp_id = e.id
+    SELECT
+        e1.id AS emp_id,
+        e2.id AS superior_id,
+        e2.fname AS superior_fname,
+        e2.lname AS superior_lname,
+        e2.mname AS superior_mname,
+        l.id AS leave_id,
+        l.start_leave AS start_leave,
+        l.end_leave AS end_leave,
+        l.leave_type AS leave_type,
+        l.status AS status
+    FROM
+        Leaves l
+    JOIN
+        Employee e1 ON l.emp_id = e1.id
+    JOIN
+        Employee e2 ON l.superior_id = e2.id
     WHERE 
       l.id = "${id}";
     `;
@@ -460,20 +532,26 @@ router.post("/action", function (request, response, next) {
   }
   if (action == 'fetchleave') {
     const query = `
-			SELECT 
-				e.id as id,
-				e.fname AS fname,
-				e.lname AS lname,
-				e.mname AS mname,
+    SELECT
+        e1.id AS emp_id,
+        e1.fname AS emp_fname,
+        e1.lname AS emp_lname,
+        e1.mname AS emp_mname,
+        e2.id AS superior_id,
+        e2.fname AS superior_fname,
+        e2.lname AS superior_lname,
+        e2.mname AS superior_mname,
         l.id AS leave_id,
         l.start_leave AS start_leave,
         l.end_leave AS end_leave,
         l.leave_type AS leave_type,
         l.status AS status
-			FROM 
-				Employee e
-			JOIN 
-				Leaves l ON l.emp_id = e.id
+    FROM
+        Leaves l
+    JOIN
+        Employee e1 ON l.emp_id = e1.id
+    JOIN
+        Employee e2 ON l.superior_id = e2.id;
 		`;
 
     database.query(query, function (error, data) {

@@ -10,10 +10,15 @@ html {
 .header {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: space-between;
   gap: 2.4rem;
   padding: 2.4rem;
   background-color: azure;
+}
+
+.header-btn-div{
+  display: flex;
+  gap: 2.4rem;
 }
 
 .header-title {
@@ -58,6 +63,10 @@ body {
 
 table {
   max-width: 100% !important;
+}
+
+.actual-table, .leave-table, .signatories-table{
+  text-align: center;
 }
 
 thead {
@@ -152,6 +161,10 @@ td {
   display: none;
 }
 
+.signatoriesbutt{
+  margin-bottom: 2.4rem;
+}
+
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -164,6 +177,11 @@ td {
   backdrop-filter: blur(2px);
   display: none;
 }
+
+.modal-backdrop {
+  backdrop-filter: blur(2px) !important;
+}
+
 
 .modal-grid {
   display: grid;
