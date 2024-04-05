@@ -83,6 +83,7 @@ $(document).ready(function () {
   
     $("body").on("click", ".blur", function () {
         overlay.css("display", "block");
+
     });
   });
   

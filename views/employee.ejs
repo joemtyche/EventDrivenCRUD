@@ -201,47 +201,64 @@
 
 </html>
 
-<div class="modal" tabindex="-1" id="action_modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form method="post" id="sample_form">
-        <div class="modal-header" id="dynamic_modal_title">
-          <h5 class="modal-title"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input type="text" name="first_name" id="tfirst_name" class="form-control" />
+<!-- EDIT FORM -->
+
+  <div class="modal" tabindex="-1" id="action_modal">
+    
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" id="sample_form">
+          <div class="modal-header" id="dynamic_modal_title">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Middle Name</label>
-            <input type="text" name="middle_name" id="tmiddle_name" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input type="text" name="last_name" id="tlast_name" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Address</label>
-            <input type="text" name="address" id="taddress" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Barangay</label>
-            <input type="text" name="barangay" id="tbarangay" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Province</label>
-            <input type="text" name="province" id="tprovince" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Country</label>
-            <input type="text" name="country" id="tcountry" class="form-control" />
-          </div>
+          <div class="modal-body">
+
+            <div class="form-div">
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" name="first_name" id="tfirst_name" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Middle Name</label>
+                <input type="text" name="middle_name" id="tmiddle_name" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" id="tlast_name" class="form-control" />
+              </div>
+            </div>
+
+
+            
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input type="text" name="address" id="taddress" class="form-control" />
+            </div>
+
+            <div class="form-div">
+            <div class="mb-3">
+              <label class="form-label">Barangay</label>
+              <input type="text" name="barangay" id="tbarangay" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Province</label>
+              <input type="text" name="province" id="tprovince" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Country</label>
+              <input type="text" name="country" id="tcountry" class="form-control" />
+            </div>
+          
+
+          
           <div class="mb-3">
             <label class="form-label">Zipcode</label>
             <input type="text" name="zipcode" id="tzipcode" class="form-control" />
           </div>
+        </div>
+
+          <div class="form-div left-div">
           <div class="mb-3">
             <label class="form-label">Department</label>
             <select name="department" id="tdepartment" class="form-control">
@@ -252,6 +269,7 @@
             <select name="role" id="trole" class="form-control">
             </select>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Status</label>
             <select name="status" id="tstatus" class="form-control">
@@ -261,14 +279,21 @@
             </select>
           </div>
         </div>
+          
+        </div>
         <div class="modal-footer">
           <input type="hidden" name="id" id="id" />
           <input type="hidden" name="action" id="action" value="Add" />
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" id="action_button">Add</button>
         </div>
+      
       </form>
 
+
+
+
+      
       <form method="post" id="department_form">
         <div class="modal-header" id="department_form_title">
           <h5 class="modal-title"></h5>
@@ -334,8 +359,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="form-div">
           <div class="mb-3">
-            <label class="form-label">Employee ID</label>
+            <label class="form-label">ID</label>
             <input type="text" id="lID" name="lID" class="form-control" disabled>
           </div>
           <div class="mb-3">
@@ -346,6 +372,8 @@
             <label class="form-label">End Date</label>
             <input type="date" id="lenddate" name="end_date" class="form-control">
           </div>
+        </div>
+        <div class="form-div">
           <div class="mb-3">
             <label class="form-label">Leave Type</label>
             <select name="type" id="ltype" class="form-control">
@@ -369,6 +397,7 @@
             </select>
           </div>
         </div>
+        </div>
         <div class="modal-footer">
           <input type="hidden" name="id" id="id" />
           <input type="hidden" name="action" id="leaveaction" value="leave" />
@@ -382,8 +411,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="form-div">
           <div class="mb-3">
-            <label class="form-label">Employee ID</label>
+            <label class="form-label">ID</label>
             <input type="text" id="empleaveID" name="empleaveID" class="form-control" disabled>
           </div>
           <div class="mb-3">
@@ -394,6 +424,8 @@
             <label class="form-label">End Date</label>
             <input type="date" id="leenddate" name="end_date" class="form-control">
           </div>
+        </div>
+        <div class="form-div">
           <div class="mb-3">
             <label class="form-label">Leave Type</label>
             <select name="type" id="letype" class="form-control">
@@ -417,6 +449,7 @@
             </select>
           </div>
         </div>
+        </div>
         <div class="modal-footer">
           <input type="hidden" name="leID" id="leID" />
           <input type="hidden" name="action" id="leaveeditaction" value="leaveedit" />
@@ -425,7 +458,7 @@
         </div>
       </form>
 
-      <form method="post" id="signatories_form">
+      <!-- <form method="post" id="signatories_form">
         <div class="modal-header" id="signatories_form_title">
           <h5 class="modal-title"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -455,7 +488,7 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" id="add_signatories_butt">Add</button>
         </div>
-      </form>
+      </form> -->
     </div>
   </div>
 </div>

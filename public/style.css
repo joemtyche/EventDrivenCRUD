@@ -7,13 +7,18 @@ html {
   font-family: "inter";
 }
 
+td{
+  background-color: #f1f4ff !important;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2.4rem;
   padding: 2.4rem;
-  background-color: azure;
+  background-color: #edf2ff !important;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.150) ;
 }
 
 .header-btn-div{
@@ -42,6 +47,8 @@ html {
 
 .div-title h1 {
   font-size: 3.4rem;
+  font-style: inherit;
+  font-weight: 700;
 }
 
 .group-names {
@@ -58,10 +65,10 @@ html {
 }
 
 body {
-  background-color: #d0ebff;
+  background-color: #dbe4ff;
 }
 
-table {
+actual-table {
   max-width: 100% !important;
 }
 
@@ -69,8 +76,13 @@ table {
   text-align: center;
 }
 
-thead {
+th {
   font-size: 1.6rem;
+  background-color: #bac8ff !important;
+}
+
+#sample-form{
+  z-index: 10 !important;
 }
 
 .form-add {
@@ -84,8 +96,8 @@ thead {
 }
 
 label {
+  font-weight: 700 !important;
   margin-bottom: 1rem;
-  font-weight: 500;
 }
 
 .form-add input,
@@ -101,10 +113,24 @@ input:active {
   font-size: 1.6rem;
 }
 
+.form-label{
+  font-size: 1.6rem;
+  font-weight: 500;
+  font-style: inherit;
+}
+
 .form-div {
   display: flex;
   margin: 1.6rem 0rem;
   gap: 5.2rem;
+  justify-content: space-between;
+}
+
+.form-div select {
+  width: 100%;
+}
+
+.left-div{
   justify-content: center;
 }
 
@@ -178,9 +204,6 @@ td {
   display: none;
 }
 
-.modal-backdrop {
-  backdrop-filter: blur(2px) !important;
-}
 
 
 .modal-grid {
@@ -208,8 +231,11 @@ td {
 
 .modal-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 1.6rem;
+  font-size: 2.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .exit-modal {

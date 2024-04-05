@@ -76,7 +76,7 @@ $(document).ready(function () {
           }
           $("input").val("");
         } else {
-          html = '<tr><td colspan="7" class="text-center">No data found</td></tr>';
+          html = '<tr><td colspan="8" class="text-center">No data found</td></tr>';
         }
 
         $('#leave_table tbody').html(html);
