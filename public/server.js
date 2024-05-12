@@ -7,6 +7,8 @@ $(document).ready(function () {
     load_departments();
     load_signatories();
     load_employees();
+    load_payroll();
+    load_payroll_report();
   }
 
   function load_data() { // load table data for employees
@@ -110,6 +112,74 @@ $(document).ready(function () {
       }
     });
   }
+  function load_payroll() { // load table data for payroll
+    $.ajax({
+      url: "http://localhost:3000/employee/payslip",
+      method: "POST",
+      data: { action: 'Fetch' },
+      dataType: "JSON",
+      success: function (data) {
+        var html = '';
+        if (data.data.length > 0) {
+          for (var count = 0; count < data.data.length; count++) { 
+            var date = new Date(data.data[count].date_payroll);
+            var startDate = new Date(data.data[count].start_payroll);
+            var endDate = new Date(data.data[count].end_payroll);
+            var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            var formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            var formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            html += `
+                        <tr>
+                            <td>`+ data.data[count].id + `</td>
+                            <td>`+ data.data[count].emp_id + `</td>
+                            <td>`+ data.data[count].regular_pay + `</td>
+                            <td>`+ data.data[count].overtime_pay + `</td>
+                            <td>`+ data.data[count].pag_ibig + `</td>
+                            <td>`+ data.data[count].SSS + `</td>
+                            <td>`+ data.data[count].philHealth + `</td>
+                            <td>`+ data.data[count].TIN + `</td>
+                            <td>`+ formattedDate + `</td>
+                            <td>`+ formattedStartDate + `</td>
+                            <td>`+ formattedEndDate + `</td>
+                            <td>`+ data.data[count].TotalDeductions + `</td>
+                            <td>`+ data.data[count].NetPay + `</td>
+                        </tr>
+                        `;
+          }
+
+          $("input").val("");
+        } else {
+          html = '<tr><td colspan="4" class="text-center">No data found</td></tr>';
+        }
+        $('#payslip_table tbody').html(html);
+      }
+    });
+  }
+  function load_payroll_report() { // load table data for payroll
+    $.ajax({
+      url: "http://localhost:3000/employee/payslip",
+      method: "POST",
+      data: { action: 'Fetch' },
+      dataType: "JSON",
+      success: function (data) {
+        reportGross = 0;
+        reportNetPay = 0;
+        reportDeductions = 0;
+
+        for (var count = 0; count < data.data.length; count++) { 
+          var item = data.data[count]
+          reportGross += item.regular_pay + item.overtime_pay;
+          reportNetPay += item.NetPay;
+          reportDeductions += item.TotalDeductions;
+        }
+
+        $('#overall-gross').val(reportGross);
+        $('#overall-net-pay').val(reportNetPay);
+        $('#overall-deductions').val(reportDeductions);
+      }
+    });
+  }
 
   function load_departments() { // load dropbox data for departments
     $.ajax({
@@ -183,12 +253,12 @@ $(document).ready(function () {
       dataType: "JSON",
       success: function (response) {
         // Clear existing options
-        $('#semployee').empty();
+        $('#employeePayroll').empty();
         console.log(response);
 
         // Populate options with received data
         response.data.forEach(function (employee) {
-          $('#semployee').append('<option value="' + employee.id + '">' + employee.lname + `, ` + employee.fname + ` ` + employee.mname + '</option>');
+          $('#employeePayroll').append('<option value="' + employee.id + '">' + employee.lname + `, ` + employee.fname + ` ` + employee.mname + '</option>');
         });
       },
       error: function (xhr, status, error) {
@@ -198,9 +268,7 @@ $(document).ready(function () {
   }
 
   $('#add_employee').click(function () { // insert new employee
-
     event.preventDefault();
-
     var formData = {
       first_name: $('#first_name').val(),
       middle_name: $('#middle_name').val(),
@@ -225,6 +293,43 @@ $(document).ready(function () {
       },
       success: function (response) {
         $('#add_employee').attr('disabled', false);
+
+        load();
+
+        setTimeout(function () {
+          $('#message').html('');
+        }, 5000);
+      }
+    });
+  });
+
+  $('#add_payslip').click(function () { // insert new payslip
+    event.preventDefault();
+    var formData = {
+      id: $('#employeePayroll').val(),
+      regular_pay: $('#regular-pay').val(),
+      overtime_pay: $('#overtime-pay').val(),
+      pag_ibig: $('#pag-ibig').val(),
+      SSS: $('#SSS').val(),
+      philHealth: $('#philHealth').val(),
+      TIN: $('#TIN').val(),
+      NetPay: $('#net-pay').val(),
+      TotalDeductions: $('#total-deductions').val(),
+      date_payroll: $('#date-payroll').val(),
+      start_payroll: $('#start-payroll').val(),
+      end_payroll: $('#end-payroll').val()
+    };
+
+    $.ajax({
+      url: "http://localhost:3000/employee/payslip",
+      method: "POST",
+      data: { action: 'Add', ...formData },
+      dataType: "JSON",
+      beforeSend: function () {
+        $('#add_payslip').attr('disabled', 'disabled');
+      },
+      success: function (response) {
+        $('#add_payslip').attr('disabled', false);
 
         load();
 

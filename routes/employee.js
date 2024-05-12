@@ -5,7 +5,6 @@ var database = require('../database');
 router.get("/", function (request, response, next) {
   response.render('employee', { title: 'Employee Management System' });
 });
-
 router.get("/departments", function (request, response, next) {
   const query = 'SELECT * FROM Department';
 
@@ -121,6 +120,7 @@ router.post("/action", function (request, response, next) {
       }
     });
   }
+
   if (action == 'Add') {
     var first_name = request.body.first_name;
     var middle_name = request.body.middle_name;
@@ -592,6 +592,59 @@ router.post("/action", function (request, response, next) {
   	});
   }
   
+});
+
+router.post("/payslip", function (request, response, next) {
+  var action = request.body.action;
+
+  if (action == 'Add') {
+    var employee_id = request.body.id;
+    var regular_pay = request.body.regular_pay;
+    var overtime_pay = request.body.overtime_pay;
+    var pag_ibig = request.body.pag_ibig;
+    var SSS = request.body.SSS;
+    var philHealth = request.body.philHealth;
+    var TIN = request.body.TIN;
+    var NetPay = request.body.NetPay;
+    var TotalDeductions = request.body.TotalDeductions;
+    var date_payroll = request.body.date_payroll;
+    var start_payroll = request.body.start_payroll;
+    var end_payroll = request.body.end_payroll;
+
+    var payslipQuery = "INSERT INTO Payslip (emp_id, regular_pay, overtime_pay, pag_ibig, SSS, philHealth, TIN, NetPay, TotalDeductions, date_payroll, start_payroll, end_payroll) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    var payslipValues = [employee_id, regular_pay, overtime_pay, pag_ibig, SSS, philHealth, TIN, NetPay, TotalDeductions, date_payroll, start_payroll, end_payroll];
+
+    database.query(payslipQuery, payslipValues, function (error, result) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+        return;
+      }
+      console.log("Payslip added successfully");
+      response.status(200).json({ message: 'Payslip added successfully' });
+    });
+  }
+
+  if (action == 'Fetch') {
+    const query = `
+			SELECT * FROM Payslip
+		`;
+
+    database.query(query, function (error, data) {
+      if (error) {
+        console.error('Database Error:', error);
+        response.status(500).json({
+          error: 'Internal Server Error'
+        });
+      } else {
+        response.json({
+          data: data
+        });
+      }
+    });
+  }
 });
 
 module.exports = router;
