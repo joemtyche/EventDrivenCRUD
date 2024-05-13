@@ -4,6 +4,13 @@
   border-radius: 1rem;
 }
 
+a:active,
+a:visited,
+a:link {
+  text-decoration: none;
+  color: #146e7c;
+}
+
 .employee-page-btn {
   border-radius: 0.6rem;
   border: 1px solid;
